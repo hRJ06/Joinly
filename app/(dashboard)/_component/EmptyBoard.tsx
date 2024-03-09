@@ -3,6 +3,7 @@ import { api } from "@/convex/_generated/api";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 import { useOrganization } from "@clerk/nextjs";
 import Image from "next/image";
+import { toast } from "sonner";
 /* https://docs.convex.dev/functions/mutation-functions */
 
 /* CALLING MUTATION FROM CLIENT */
@@ -15,7 +16,13 @@ export const EmptyBoard = () => {
     mutate({
       orgId: organization.id,
       title: "Untitled",
-    });
+    })
+      .then(() => {
+        toast.success("Board Created");
+      })
+      .catch(() => {
+        toast.error("Failed To Create Board");
+      });
   };
   return (
     <div className="h-full flex flex-col items-center justify-center">
