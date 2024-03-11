@@ -107,7 +107,6 @@ export const favorite = mutation({
 export const unfavorite = mutation({
   args: {
     id: v.id("boards"),
-    orgId: v.string(),
   },
   handler: async (ctx, args) => {
     const identity = await ctx.auth.getUserIdentity();
