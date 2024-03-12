@@ -1,7 +1,8 @@
 import { v } from "convex/values";
 import { mutation } from "./_generated/server";
 /* https://docs.convex.dev/auth/functions-auth 
-    https://clerk.com/docs/integrations/databases/convex */
+    https://clerk.com/docs/integrations/databases/convex 
+    https://docs.convex.dev/database/writing-data */
 const images = [
   "/placeholder/1.svg",
   "/placeholder/2.svg",
@@ -98,8 +99,8 @@ export const favorite = mutation({
     const userId = identity.subject;
     const exisitingFavorite = await ctx.db
       .query("userFavorites")
-      .withIndex("by_user_board_org", (q) =>
-        q.eq("userId", userId).eq("boardId", board._id).eq("orgId", args.orgId)
+      .withIndex("by_user_board", (q) =>
+        q.eq("userId", userId).eq("boardId", board._id)
       )
       .unique();
     if (exisitingFavorite) {
@@ -130,8 +131,8 @@ export const unfavorite = mutation({
     const userId = identity.subject;
     const exisitingFavorite = await ctx.db
       .query("userFavorites")
-      .withIndex("by_user_board_org", (q) =>
-        q.eq("userId", userId).eq("boardId", board._id).eq("orgId", board.orgId)
+      .withIndex("by_user_board", (q) =>
+        q.eq("userId", userId).eq("boardId", board._id)
       )
       .unique();
     if (!exisitingFavorite) {
