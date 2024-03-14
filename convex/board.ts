@@ -1,5 +1,5 @@
 import { v } from "convex/values";
-import { mutation } from "./_generated/server";
+import { mutation, query } from "./_generated/server";
 /* https://docs.convex.dev/auth/functions-auth 
     https://clerk.com/docs/integrations/databases/convex 
     https://docs.convex.dev/database/writing-data */
@@ -139,6 +139,16 @@ export const unfavorite = mutation({
       throw new Error("Favorite Board not found");
     }
     await ctx.db.delete(exisitingFavorite._id);
+    return board;
+  },
+});
+
+export const get = query({
+  args: {
+    id: v.id("boards"),
+  },
+  handler: async (ctx, args) => {
+    const board = ctx.db.get(args.id);
     return board;
   },
 });
