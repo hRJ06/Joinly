@@ -5,6 +5,7 @@ import { memo } from "react";
 import { Rectangle } from "./Rectangle";
 import { Ellipse } from "./Ellipse";
 import { Text } from "./Text";
+import { Note } from "./Note";
 interface LayerPreviewProps {
   id: string;
   onLayerPointerDown: (e: React.PointerEvent, layerId: string) => void;
@@ -36,6 +37,15 @@ export const LayerPreview = memo(
       case LayerType.Text:
         return (
           <Text
+            id={id}
+            layer={layer}
+            onPointerDown={onLayerPointerDown}
+            selectionColor={selectionColor}
+          />
+        );
+      case LayerType.Note:
+        return (
+          <Note
             id={id}
             layer={layer}
             onPointerDown={onLayerPointerDown}
