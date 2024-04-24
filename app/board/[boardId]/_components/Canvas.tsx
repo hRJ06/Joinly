@@ -33,6 +33,7 @@ import {
 } from "@/lib/utils";
 import { LiveObject } from "@liveblocks/client";
 import { LayerPreview } from "./LayerPreview";
+import { SelectionBox } from "./SelectionBox";
 
 const MAX_LAYERS = 100;
 interface CanvasProps {
@@ -209,10 +210,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
               selectionColor={layerIdsToColorSelection[layerId]}
             />
           ))}
-<<<<<<< Updated upstream
-=======
           <SelectionBox onResizeHandlePointerDown={onResizeHandlePointerDown} />
->>>>>>> Stashed changes
           <CursorsPresence />
         </g>
       </svg>
