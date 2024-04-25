@@ -8,24 +8,25 @@ import {
   Type,
   Undo2,
 } from "lucide-react";
-import { CanvasMode, CanvasState, LayerType } from "@/types/Canvas";
 import { ToolButton } from "./ToolButton";
+import { CanvasMode, CanvasState, LayerType } from "@/types/Canvas";
 
-interface ToolbarProps {
+type ToolbarProps = {
   canvasState: CanvasState;
   setCanvasState: (newState: CanvasState) => void;
   undo: () => void;
   redo: () => void;
   canUndo: boolean;
   canRedo: boolean;
-}
+};
+
 export const Toolbar = ({
   canvasState,
   setCanvasState,
   undo,
   redo,
-  canUndo,
   canRedo,
+  canUndo,
 }: ToolbarProps) => {
   return (
     <div className="absolute top-[50%] -translate-y-[50%] left-2 flex flex-col gap-y-4">
@@ -42,6 +43,7 @@ export const Toolbar = ({
             canvasState.mode === CanvasMode.Resizing
           }
         />
+
         <ToolButton
           label="Text"
           icon={Type}
@@ -56,8 +58,9 @@ export const Toolbar = ({
             canvasState.layerType === LayerType.Text
           }
         />
+
         <ToolButton
-          label="Sticky Note"
+          label="Sticky note"
           icon={StickyNote}
           onClick={() =>
             setCanvasState({
@@ -70,6 +73,7 @@ export const Toolbar = ({
             canvasState.layerType === LayerType.Note
           }
         />
+
         <ToolButton
           label="Rectangle"
           icon={Square}
@@ -84,6 +88,7 @@ export const Toolbar = ({
             canvasState.layerType === LayerType.Rectangle
           }
         />
+
         <ToolButton
           label="Ellipse"
           icon={Circle}
@@ -98,6 +103,7 @@ export const Toolbar = ({
             canvasState.layerType === LayerType.Ellipse
           }
         />
+
         <ToolButton
           label="Pen"
           icon={Pencil}
@@ -109,6 +115,7 @@ export const Toolbar = ({
           isActive={canvasState.mode === CanvasMode.Pencil}
         />
       </div>
+
       <div className="bg-white rounded-md p-1.5 flex flex-col items-center shadow-md">
         <ToolButton
           label="Undo"
@@ -129,6 +136,9 @@ export const Toolbar = ({
 
 export const ToolbarSkeleton = () => {
   return (
-    <div className="absolute top-[50%] -translate-y-[50%] left-2 flex flex-col gap-y-4 bg-white h-[360px] w-[52px] shadow-md rounded-md" />
+    <div
+      className="absolute top-[50%] -translate-y-[50%] left-2 flex flex-col gap-y-4 bg-white h-[360px] w-[52px] shadow-md rounded-md"
+      aria-hidden
+    />
   );
 };

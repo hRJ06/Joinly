@@ -1,33 +1,44 @@
 "use client";
+
+import React, { memo } from "react";
+
 import { useStorage } from "@/liveblocks.config";
 import { LayerType } from "@/types/Canvas";
-import { memo } from "react";
-import { Rectangle } from "./Rectangle";
-import { Ellipse } from "./Ellipse";
-import { Text } from "./Text";
+import { Path } from "./Path";
 import { Note } from "./Note";
-interface LayerPreviewProps {
+import { Text } from "./Text";
+import { Ellipse } from "./Ellipse";
+import { Rectangle } from "./Rectangle";
+import { colorToCss } from "@/lib/utils";
+
+type LayerPreviewProps = {
   id: string;
   onLayerPointerDown: (e: React.PointerEvent, layerId: string) => void;
   selectionColor?: string;
-}
+};
+
 export const LayerPreview = memo(
   ({ id, onLayerPointerDown, selectionColor }: LayerPreviewProps) => {
     const layer = useStorage((root) => root.layers.get(id));
+
     if (!layer) return null;
+
     switch (layer.type) {
-      case LayerType.Rectangle:
+      case LayerType.Path:
         return (
-          <Rectangle
-            id={id}
-            layer={layer}
-            onPointerDown={onLayerPointerDown}
-            selectionColor={selectionColor}
+          <Path
+            key={id}
+            points={layer.points}
+            onPointerDown={(e) => onLayerPointerDown(e, id)}
+            x={layer.x}
+            y={layer.y}
+            fill={layer.fill ? colorToCss(layer.fill) : "#000"}
+            stroke={selectionColor}
           />
         );
-      case LayerType.Ellipse:
+      case LayerType.Note:
         return (
-          <Ellipse
+          <Note
             id={id}
             layer={layer}
             onPointerDown={onLayerPointerDown}
@@ -43,19 +54,29 @@ export const LayerPreview = memo(
             selectionColor={selectionColor}
           />
         );
-      case LayerType.Note:
+      case LayerType.Ellipse:
         return (
-          <Note
+          <Ellipse
             id={id}
             layer={layer}
             onPointerDown={onLayerPointerDown}
             selectionColor={selectionColor}
           />
         );
+      case LayerType.Rectangle:
+        return (
+          <Rectangle
+            id={id}
+            onPointerDown={onLayerPointerDown}
+            selectionColor={selectionColor}
+            layer={layer}
+          />
+        );
       default:
-        console.warn("Unknown Layer Type");
+        console.warn("Unknown layer type");
         return null;
     }
   }
 );
+
 LayerPreview.displayName = "LayerPreview";

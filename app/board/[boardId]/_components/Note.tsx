@@ -1,8 +1,12 @@
-import { cn, colorToCss, getContrastingTextColor } from "@/lib/utils";
+import { Kalam } from "next/font/google";
+import ContentEditable, {
+  type ContentEditableEvent,
+} from "react-contenteditable";
+
 import { useMutation } from "@/liveblocks.config";
 import { NoteLayer } from "@/types/Canvas";
-import { Kalam } from "next/font/google";
-import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
+import { cn, colorToCss, getContrastingTextColor } from "@/lib/utils";
+
 const font = Kalam({
   subsets: ["latin"],
   weight: ["400"],
@@ -13,29 +17,35 @@ const calculateFontSize = (width: number, height: number) => {
   const scaleFactor = 0.15;
   const fontSizeBasedOnHeight = height * scaleFactor;
   const fontSizeBasedOnWidth = width * scaleFactor;
+
   return Math.min(fontSizeBasedOnHeight, fontSizeBasedOnWidth, maxFontSize);
 };
-interface NoteProps {
+
+type NoteProps = {
   id: string;
   layer: NoteLayer;
   onPointerDown: (e: React.PointerEvent, id: string) => void;
   selectionColor?: string;
-}
+};
 
 export const Note = ({
+  id,
   layer,
   onPointerDown,
-  id,
   selectionColor,
 }: NoteProps) => {
   const { x, y, width, height, fill, value } = layer;
+
   const updateValue = useMutation(({ storage }, newValue: string) => {
     const liveLayers = storage.get("layers");
+
     liveLayers.get(id)?.set("value", newValue);
   }, []);
+
   const handleContentChange = (e: ContentEditableEvent) => {
     updateValue(e.target.value);
   };
+
   return (
     <foreignObject
       x={x}
@@ -57,8 +67,8 @@ export const Note = ({
           font.className
         )}
         style={{
-          color: fill ? getContrastingTextColor(fill) : "#000",
           fontSize: calculateFontSize(width, height),
+          color: fill ? getContrastingTextColor(fill) : "#000",
         }}
       />
     </foreignObject>

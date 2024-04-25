@@ -1,12 +1,13 @@
 import { colorToCss } from "@/lib/utils";
 import { EllipseLayer } from "@/types/Canvas";
+import React from "react";
 
-interface EllipseProps {
+type EllipseProps = {
   id: string;
   layer: EllipseLayer;
   onPointerDown: (e: React.PointerEvent, id: string) => void;
   selectionColor?: string;
-}
+};
 
 export const Ellipse = ({
   id,
@@ -27,6 +28,7 @@ export const Ellipse = ({
       ry={layer.height / 2}
       fill={layer.fill ? colorToCss(layer.fill) : "#000"}
       stroke={selectionColor || "transparent"}
+      strokeWidth={1}
     />
   );
 };

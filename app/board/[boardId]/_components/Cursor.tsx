@@ -1,23 +1,25 @@
 "use client";
-import { connectionIdToColor } from "@/lib/utils";
-/* https://liveblocks.io/docs/api-reference/liveblocks-react#useOther */
-/* https://developer.mozilla.org/en-US/docs/Web/SVG/Element/foreignObject */
-import { useOther } from "@/liveblocks.config";
+
 import { MousePointer2 } from "lucide-react";
 import { memo } from "react";
 
-interface CursorProps {
+import { connectionIdToColor } from "@/lib/utils";
+import { useOther } from "@/liveblocks.config";
+
+type CursorProps = {
   connectionId: number;
-}
+};
 
 export const Cursor = memo(({ connectionId }: CursorProps) => {
   const info = useOther(connectionId, (user) => user?.info);
-  const cursor = useOther(connectionId, (user) => user?.presence.cursor);
-  const name = info?.name || "Anonymous";
-  if (!cursor) {
-    return null;
-  }
+  const cursor = useOther(connectionId, (user) => user.presence.cursor);
+
+  const name = info?.name || "Teammate";
+
+  if (!cursor) return null;
+
   const { x, y } = cursor;
+
   return (
     <foreignObject
       style={{
@@ -34,8 +36,9 @@ export const Cursor = memo(({ connectionId }: CursorProps) => {
           color: connectionIdToColor(connectionId),
         }}
       />
+
       <div
-        className="absolute left-5 px-1.5 py-0.5 rounded-md text-xs text-white font-semibold"
+        className="absolute left-5 px-1.5 py-0.5 rounded-md text-sm text-white font-semibold"
         style={{
           backgroundColor: connectionIdToColor(connectionId),
         }}

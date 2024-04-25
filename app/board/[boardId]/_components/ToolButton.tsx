@@ -1,16 +1,16 @@
 "use client";
 
-import { Hint } from "@/app/(dashboard)/_component/Hint";
+import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { LucideIcon } from "lucide-react";
+import { Hint } from "@/app/(dashboard)/_component/Hint";
 
-interface ToolButtonProps {
+type ToolButtonProps = {
   label: string;
   icon: LucideIcon;
   onClick: () => void;
   isActive?: boolean;
   isDisabled?: boolean;
-}
+};
 
 export const ToolButton = ({
   label,
@@ -23,6 +23,7 @@ export const ToolButton = ({
     <Hint label={label} side="right" sideOffset={14}>
       <Button
         disabled={isDisabled}
+        aria-disabled={isDisabled}
         onClick={onClick}
         size="icon"
         variant={isActive ? "boardActive" : "board"}
